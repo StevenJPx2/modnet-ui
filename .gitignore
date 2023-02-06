@@ -1,3 +1,6 @@
+*.ckpt
+*.onnx
+
 # General
 .DS_Store
 *.mp4
