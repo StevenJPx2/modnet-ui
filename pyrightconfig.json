@@ -1,0 +1,9 @@
+{
+  "include": [
+    "api"
+  ],
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "typeCheckingMode": "basic",
+  "venvPath": "./.venv/bin/python"
+}
