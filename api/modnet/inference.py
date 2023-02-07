@@ -1,6 +1,5 @@
 import argparse
 import os
-import sys
 from io import BytesIO
 
 import numpy as np
@@ -13,6 +12,7 @@ from PIL import Image
 from .modnet.src.models.modnet import MODNet
 
 REF_SIZE = 512
+CKPT_PATH = "modnet/modnet/pretrained/modnet_photographic_portrait_matting.ckpt"
 
 
 def setup_modnet(ckpt_path: str):
@@ -56,8 +56,10 @@ def process_image(
     modnet: MODNet | nn.DataParallel,
 ):
 
+    print(buffer[:100])
     # read image
     image = Image.open(BytesIO(buffer))
+    print(image)
 
     # unify image channels to 3
     im = np.asarray(image)
@@ -100,13 +102,28 @@ def process_image(
     matte = matte[0][0].data.cpu().numpy()
     matte = Image.fromarray(((matte * 255).astype("uint8")), mode="L")
 
-    return Image.fromarray(np.uint8(generate_foreground(image, matte)))
+    foreground = Image.fromarray(np.uint8(generate_foreground(image, matte)))
+
+    return foreground
+
+
+def process_single_image(buffer: bytes):
+    try:
+        im_transform, modnet = setup_modnet(CKPT_PATH)
+        return process_image(
+            buffer,
+            im_transform=im_transform,
+            modnet=modnet,
+        )
+    except Exception as e:
+        print(e)
+        raise e
 
 
 def process_images_from_path(
     input_path: str,
     output_path: str,
-    ckpt_path: str = "modnet/modnet/pretrained/modnet_photographic_portrait_matting.ckpt",
+    ckpt_path: str = CKPT_PATH,
 ):
 
     input_path = os.path.expanduser(input_path)

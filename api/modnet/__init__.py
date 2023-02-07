@@ -1,1 +1,1 @@
-from .inference import process_images_from_path
+from .inference import process_images_from_path, process_single_image
