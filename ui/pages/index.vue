@@ -54,7 +54,18 @@ watch(files, async (val) => {
 
 <template>
   <div class="grid justify-center">
-    <h1 class="text-6xl mb-10 text-center">Remove the background!🎉</h1>
+    <h1 class="text-6xl mb-10 text-center font-black">
+      <span
+        class="
+          bg-clip-text bg-gradient-to-br
+          from-fuchsia-500
+          to-indigo-800
+          text-transparent
+        "
+      >
+        Remove the background! </span
+      >🎉
+    </h1>
     <button
       class="
         btn
