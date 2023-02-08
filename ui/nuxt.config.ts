@@ -1,4 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/fontaine", "@nuxtjs/tailwindcss", "@vueuse/nuxt"],
+  modules: [
+    "nuxt-icon",
+    "@nuxtjs/fontaine",
+    "@nuxtjs/tailwindcss",
+    "@vueuse/nuxt",
+    "@nuxtjs/supabase",
+  ],
 });

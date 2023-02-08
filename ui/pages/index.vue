@@ -2,7 +2,18 @@
 const file = ref<File | Blob>();
 const fileData = ref<string>("");
 const url = useObjectUrl(file);
-const { base64 } = useBase64(fileData);
+const user = useSupabaseUser();
+const loading = computed(() => fileData.value === "");
+
+function _arrayBufferToBase64(buffer: ArrayBufferLike) {
+  var binary = "";
+  var bytes = new Uint8Array(buffer);
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
 
 const { files, open, reset } = useFileDialog({
   multiple: false,
@@ -12,12 +23,28 @@ const { files, open, reset } = useFileDialog({
 watch(files, async (val) => {
   file.value = (val ?? [])[0];
 
+  const arrayBuffer = await file.value?.arrayBuffer();
+
   try {
-    const { data } = await useFetch<string>("http://127.0.0.1:8080", {
+    const { data } = await useFetch<string>(
+      "https://process-image-harrehuwdq-et.a.run.app",
+      {
+        method: "POST",
+        body: arrayBuffer,
+        headers: { "Content-Type": file.value!.type },
+      }
+    );
+
+    await useFetch<{ error: string }>("/api/insertPicture", {
       method: "POST",
-      body: await file.value?.arrayBuffer(),
-      headers: { "Content-Type": file.value!.type },
+      body: {
+        entry_image: _arrayBufferToBase64(arrayBuffer),
+        converted_image: data.value!,
+        image_type: file.value!.type,
+        user_email: user.value!.email,
+      },
     });
+
     fileData.value = data.value!;
   } catch (e) {
     console.error(e);
@@ -27,20 +54,28 @@ watch(files, async (val) => {
 
 <template>
   <div>
-    <button type="button" @click="open()">Upload file</button> <br />
+    <button class="btn" type="button" @click="open()">Upload file</button>
+    <br />
     <div class="flex gap-4">
-      <img
-        class="h-96 rounded-lg object-cover"
-        v-if="file !== null"
-        :src="url"
-        alt=""
+      <img class="img" v-if="file !== null" :src="url" alt="" />
+      <div
+        v-if="loading && file"
+        class="img aspect-square bg-slate-300 animate-pulse"
       />
       <img
-        class="h-96 rounded-lg object-cover"
-        v-if="fileData !== ''"
+        class="img"
+        v-else-if="!loading"
         :src="`data:${file?.type};base64,${fileData}`"
         alt=""
       />
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.img {
+  @apply h-96;
+  @apply rounded-lg;
+  @apply object-cover;
+}
+</style>
