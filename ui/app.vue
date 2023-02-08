@@ -22,6 +22,7 @@ html {
   @apply py-2;
   @apply border;
   @apply rounded;
+  @apply transition;
 
   &-lg {
     @apply px-5;

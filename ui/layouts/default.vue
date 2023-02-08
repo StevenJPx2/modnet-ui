@@ -14,7 +14,9 @@ const signOut = async () => {
     <nav class="bg-white w-full fixed top-0 border-b border-slate-400 py-5">
       <div class="container-full flex gap-5 mx-auto items-center">
         <nuxt-link to="/">Home</nuxt-link>
-        <nuxt-link to="/admin">Admin Panel</nuxt-link>
+        <nuxt-link v-if="validEmails.includes(user?.email ?? '~~')" to="/admin"
+          >Admin Panel</nuxt-link
+        >
         <button
           v-if="user"
           @click="signOut()"

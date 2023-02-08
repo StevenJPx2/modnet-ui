@@ -53,8 +53,23 @@ watch(files, async (val) => {
 </script>
 
 <template>
-  <div>
-    <button class="btn mb-3" type="button" @click="open()">Upload file</button>
+  <div class="grid justify-center">
+    <h1 class="text-6xl mb-10 text-center">Remove the background!🎉</h1>
+    <button
+      class="
+        btn
+        bg-fuchsia-700
+        text-white
+        hover:bg-fuchsia-800
+        mb-3
+        max-w-2xl
+        mx-auto
+      "
+      type="button"
+      @click="open()"
+    >
+      Upload file
+    </button>
     <br />
     <div class="flex flex-wrap gap-4">
       <img class="img" v-if="file !== null" :src="url" alt="" />
