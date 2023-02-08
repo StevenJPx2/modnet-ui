@@ -15,7 +15,10 @@ watch(
 const login = async (
   provider: "github" | "google" | "gitlab" | "bitbucket"
 ) => {
-  const { error } = await client.auth.signInWithOAuth({ provider });
+  const { error } = await client.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: "https://modnet.stevenjohn.co/" },
+  });
   if (error) {
     return alert("Something went wrong !");
   }

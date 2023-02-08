@@ -54,9 +54,9 @@ watch(files, async (val) => {
 
 <template>
   <div>
-    <button class="btn" type="button" @click="open()">Upload file</button>
+    <button class="btn mb-3" type="button" @click="open()">Upload file</button>
     <br />
-    <div class="flex gap-4">
+    <div class="flex flex-wrap gap-4">
       <img class="img" v-if="file !== null" :src="url" alt="" />
       <div
         v-if="loading && file"

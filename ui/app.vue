@@ -11,6 +11,12 @@ html {
   font-family: "Inter";
 }
 
+.container-full {
+  @apply container;
+  @apply mx-auto;
+  @apply px-2;
+}
+
 .btn {
   @apply px-4;
   @apply py-2;

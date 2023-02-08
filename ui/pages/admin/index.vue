@@ -33,7 +33,7 @@ const columns: {
       v-if="pending"
       class="animate-pulse h-[50vh] w-full bg-slate-300 rounded-lg"
     />
-    <table class="w-full table-auto" v-else>
+    <table class="overflow-scroll w-full table-auto" v-else>
       <thead>
         <th v-for="{ name, key } in columns" :key="key">{{ name }}</th>
       </thead>
@@ -55,9 +55,13 @@ const columns: {
 
 <style scoped lang="scss">
 table {
+  @apply rounded-lg;
+
   thead {
     @apply border-b;
     @apply border-slate-900;
+    @apply bg-slate-50;
+    @apply py-6;
   }
 
   tbody {
@@ -73,6 +77,7 @@ table {
           @apply h-32;
           @apply aspect-square;
           @apply object-cover;
+          @apply rounded-md;
         }
       }
     }

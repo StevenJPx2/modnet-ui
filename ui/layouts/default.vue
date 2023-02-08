@@ -10,9 +10,9 @@ const signOut = async () => {
 </script>
 
 <template>
-  <div>
+  <div class="overflow-hidden">
     <nav class="bg-white w-full fixed top-0 border-b border-slate-400 py-5">
-      <div class="container flex gap-5 mx-auto items-center">
+      <div class="container-full flex gap-5 mx-auto items-center">
         <nuxt-link to="/">Home</nuxt-link>
         <nuxt-link to="/admin">Admin Panel</nuxt-link>
         <button
@@ -24,7 +24,7 @@ const signOut = async () => {
         </button>
       </div>
     </nav>
-    <main class="container mt-24 mx-auto">
+    <main class="container-full mt-24 mx-auto">
       <slot />
     </main>
   </div>
